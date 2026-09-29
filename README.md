@@ -15,10 +15,8 @@ en Node 18+ (CLI) y en el navegador (web).
 
 Todo se calcula en el navegador; la web no hace llamadas HTTP.
 
-1. Paso 0: completa `x-api-key`, `userDocument` y `recaptchaToken`, copia el `curl` y ejecútalo
-   (el endpoint no permite CORS, por eso la web no lo llama). Pega la respuesta: la `session` se copia al paso 1.
-2. Paso 1: completa USERNAME / ClientId y pulsa **Generar SRP_A**. Copia el body o el `curl` de `InitiateAuth`.
-3. Paso 2: pega la respuesta JSON de `InitiateAuth` (con `ChallengeParameters` y `Session`), el `USER_POOL_ID`
+1. Paso 1: completa USERNAME / ClientId, pega el token `session` y pulsa **Generar SRP_A**. Copia el body o el `curl` de `InitiateAuth`.
+2. Paso 2: pega la respuesta JSON de `InitiateAuth` (con `ChallengeParameters` y `Session`), el `USER_POOL_ID`
    y el password, y pulsa **Calcular PASSWORD_CLAIM_SIGNATURE**. Copia el body o el `curl` de `RespondToAuthChallenge`.
 
 El valor `a` queda guardado en `sessionStorage` de la pestaña para poder hacer el paso 2 después.

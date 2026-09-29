@@ -4,30 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cognito SRP helper</title>
-    <script type="module" crossorigin src="./assets/index-CCkYd8fX.js"></script>
+    <script type="module" crossorigin src="./assets/index-RfTd_6ds.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-BnW74xFC.css">
   </head>
   <body>
     <main>
       <h1>Cognito SRP helper</h1>
       <p class="note">Todo se calcula en tu navegador. No se envía nada a ningún servidor.</p>
-      <section>
-        <h2>Paso 0 · Obtener session (/v1/auth/session)</h2>
-        <p class="note">El endpoint no permite CORS: copia el curl, ejecútalo y pega la respuesta abajo.</p>
-        <div class="grid">
-          <label>Endpoint <input id="sessionEndpoint" value="https://mobile.api.dev.io.pe/v1/auth/session" /></label>
-          <label>x-api-key <input id="apiKey" type="password" autocomplete="off" /></label>
-          <label>authFlow <input id="authFlow" value="signup" /></label>
-          <label>version <input id="appVersion" value="enterprise" /></label>
-          <label>platform <input id="platform" value="android" /></label>
-          <label>userDocument <input id="userDocument" /></label>
-        </div>
-        <label>recaptchaToken <textarea id="recaptchaToken" rows="3"></textarea></label>
-        <label>curl <textarea id="sessionCurl" rows="8" readonly></textarea></label>
-        <button class="copy" data-target="sessionCurl">Copiar curl</button>
-        <label>Respuesta de /v1/auth/session <textarea id="sessionResponse" rows="4" placeholder="Pega aquí la respuesta JSON"></textarea></label>
-        <p id="sessionInfo" class="note"></p>
-      </section>
       <section>
         <h2>Paso 1 · InitiateAuth (SRP_A)</h2>
         <div class="grid">
