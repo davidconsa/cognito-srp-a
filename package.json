@@ -9,6 +9,8 @@
     "generate": "npm run build --silent && node dist/cli/generate.js",
     "claim": "npm run build --silent && node dist/cli/claim.js",
     "selftest": "npm run build --silent && node dist/cli/selftest.js",
+    "session": "npm run build --silent && node dist/cli/session.js",
+    "login": "npm run build --silent && node dist/cli/login.js",
     "web:dev": "vite web",
     "web:build": "vite build web && touch docs/.nojekyll"
   },

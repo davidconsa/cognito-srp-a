@@ -1,7 +1,5 @@
 import { computePasswordClaim, generateSrpA, srpAFromPrivate } from "../src/core/srp.js";
-
-const DEFAULT_DEVICE =
-  "eyJwbGF0Zm9ybSI6eyJzbyI6IkFuZHJvaWQiLCJ2ZXJzaW9uIjoiMTYifSwiZGV2aWNlIjp7Im1vZGVsIjoiU00tUzkzOEIiLCJicmFuZCI6InNhbXN1bmcifSwiYXBwVmVyc2lvbiI6IjMuMTAuMCJ9";
+import { DEFAULT_DEVICE, extractSession, jwtExpiry } from "../src/core/session.js";
 
 const el = <T extends HTMLElement = HTMLInputElement>(id: string): T => {
   const node = document.getElementById(id);
@@ -87,6 +85,50 @@ const claim = async (): Promise<void> => {
     errorEl.textContent = err instanceof Error ? err.message : String(err);
   }
 };
+
+const renderSessionCurl = (): void => {
+  const body = {
+    authFlow: val("authFlow"),
+    userDocument: val("userDocument"),
+    version: val("appVersion"),
+    recaptchaToken: val("recaptchaToken"),
+    platform: val("platform"),
+  };
+  el<HTMLTextAreaElement>("sessionCurl").value = [
+    "curl --location " + shellQuote(val("sessionEndpoint")),
+    "--header 'Accept: application/json'",
+    "--header 'Content-Type: application/json'",
+    "--header " + shellQuote("x-api-key: " + val("apiKey")),
+    "--data " + shellQuote(JSON.stringify(body, null, 2)),
+  ].join(" \\\n");
+};
+
+const applySessionResponse = (): void => {
+  const info = el<HTMLParagraphElement>("sessionInfo");
+  const raw = val("sessionResponse");
+  if (!raw) return void (info.textContent = "");
+  let parsed: unknown = raw;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    // puede ser el JWT plano
+  }
+  const session = extractSession(parsed);
+  if (!session) {
+    info.textContent = "No se encontró un token session en la respuesta.";
+    return;
+  }
+  el<HTMLTextAreaElement>("session").value = session;
+  const exp = jwtExpiry(session);
+  info.textContent = "Session copiada al paso 1" + (exp ? " · expira " + exp.toLocaleTimeString() : "") + ".";
+  renderInitiate();
+};
+
+for (const id of ["sessionEndpoint", "apiKey", "authFlow", "appVersion", "platform", "userDocument", "recaptchaToken"]) {
+  el(id).addEventListener("input", renderSessionCurl);
+}
+el("sessionResponse").addEventListener("input", applySessionResponse);
+renderSessionCurl();
 
 el("device").value = DEFAULT_DEVICE;
 const storedA = sessionStorage.getItem("srp-a");

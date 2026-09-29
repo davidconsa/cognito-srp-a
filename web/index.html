@@ -11,6 +11,23 @@
       <h1>Cognito SRP helper</h1>
       <p class="note">Todo se calcula en tu navegador. No se envía nada a ningún servidor.</p>
       <section>
+        <h2>Paso 0 · Obtener session (/v1/auth/session)</h2>
+        <p class="note">El endpoint no permite CORS: copia el curl, ejecútalo y pega la respuesta abajo.</p>
+        <div class="grid">
+          <label>Endpoint <input id="sessionEndpoint" value="https://mobile.api.dev.io.pe/v1/auth/session" /></label>
+          <label>x-api-key <input id="apiKey" type="password" autocomplete="off" /></label>
+          <label>authFlow <input id="authFlow" value="signup" /></label>
+          <label>version <input id="appVersion" value="enterprise" /></label>
+          <label>platform <input id="platform" value="android" /></label>
+          <label>userDocument <input id="userDocument" /></label>
+        </div>
+        <label>recaptchaToken <textarea id="recaptchaToken" rows="3"></textarea></label>
+        <label>curl <textarea id="sessionCurl" rows="8" readonly></textarea></label>
+        <button class="copy" data-target="sessionCurl">Copiar curl</button>
+        <label>Respuesta de /v1/auth/session <textarea id="sessionResponse" rows="4" placeholder="Pega aquí la respuesta JSON"></textarea></label>
+        <p id="sessionInfo" class="note"></p>
+      </section>
+      <section>
         <h2>Paso 1 · InitiateAuth (SRP_A)</h2>
         <div class="grid">
           <label>Endpoint <input id="endpoint" value="https://mobile.api.dev.io.pe/v1/auth" /></label>
@@ -32,8 +49,8 @@
         <h2>Paso 2 · RespondToAuthChallenge (PASSWORD_VERIFIER)</h2>
         <label>Respuesta de InitiateAuth (JSON) <textarea id="challengeJson" rows="6" placeholder='{"ChallengeParameters": {...}, "Session": "..."}'></textarea></label>
         <div class="grid">
-          <label>USER_POOL_ID <input id="userPoolId" placeholder="us-east-1_XXXXXXX" /></label>
-          <label>Password <input id="password" type="password" autocomplete="off" /></label>
+          <label>USER_POOL_ID <input id="userPoolId" placeholder="us-east-1_XXXXXXX" value="us-east-1_ao9xAS1FA" /></label>
+          <label>Password <input id="password" type="password" autocomplete="off" value="Test.123" /></label>
         </div>
         <button id="btnClaim">Calcular PASSWORD_CLAIM_SIGNATURE</button>
         <p id="claimError" class="error"></p>

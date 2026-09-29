@@ -11,6 +11,7 @@ import {
   getK,
   srpAFromPrivate,
 } from "../core/srp.js";
+import { extractSession, jwtExpiry } from "../core/session.js";
 
 // Simula el lado servidor de Cognito y verifica que cliente y servidor derivan el mismo S
 // y la misma firma PASSWORD_CLAIM_SIGNATURE.
@@ -68,6 +69,12 @@ const expected = createHmac("sha256", key)
   .digest("base64");
 check("PASSWORD_CLAIM_SIGNATURE coincide con servidor", claim.PASSWORD_CLAIM_SIGNATURE === expected);
 check("k = H(N||g)", k === bigIntFromHex(createHash("sha256").update(hexToBytes(padHex(N) + padHex(g))).digest("hex")));
+
+const fakeJwt = "eyJhbGciOiJub25lIn0.eyJleHAiOjE3OTA3MDE2NjB9.c2ln";
+check("extractSession plano", extractSession({ session: fakeJwt }) === fakeJwt);
+check("extractSession anidado", extractSession({ data: { token: fakeJwt } }) === fakeJwt);
+check("extractSession sin token", extractSession({ code: "x" }) === undefined);
+check("jwtExpiry", jwtExpiry(fakeJwt)?.getTime() === 1790701660000);
 
 if (failures) {
   console.error(failures + " verificaciones fallaron");
