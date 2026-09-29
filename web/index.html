@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cognito SRP helper</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Cognito SRP helper</h1>
+      <p class="note">Todo se calcula en tu navegador. No se envía nada a ningún servidor.</p>
+      <section>
+        <h2>Paso 1 · InitiateAuth (SRP_A)</h2>
+        <div class="grid">
+          <label>Endpoint <input id="endpoint" value="https://mobile.api.dev.io.pe/v1/auth" /></label>
+          <label>ClientId <input id="clientId" value="28fsp78mbm4sfevo5ciuttf94m" /></label>
+          <label>USERNAME <input id="username" value="baa2df1a-95c5-4b25-812e-5dcea6ee917a" /></label>
+          <label>ClientMetadata.device <input id="device" /></label>
+        </div>
+        <label>ClientMetadata.session (JWT) <textarea id="session" rows="3" placeholder="Pega aquí el token session vigente"></textarea></label>
+        <button id="btnGenerate">Generar SRP_A</button>
+        <label>SRP_A <textarea id="srpA" rows="4" readonly></textarea></label>
+        <button class="copy" data-target="srpA">Copiar SRP_A</button>
+        <label>a (privado, se usa en el paso 2) <textarea id="aPriv" rows="3"></textarea></label>
+        <label>Body InitiateAuth <textarea id="initBody" rows="8" readonly></textarea></label>
+        <button class="copy" data-target="initBody">Copiar body</button>
+        <label>curl <textarea id="initCurl" rows="8" readonly></textarea></label>
+        <button class="copy" data-target="initCurl">Copiar curl</button>
+      </section>
+      <section>
+        <h2>Paso 2 · RespondToAuthChallenge (PASSWORD_VERIFIER)</h2>
+        <label>Respuesta de InitiateAuth (JSON) <textarea id="challengeJson" rows="6" placeholder='{"ChallengeParameters": {...}, "Session": "..."}'></textarea></label>
+        <div class="grid">
+          <label>USER_POOL_ID <input id="userPoolId" placeholder="us-east-1_XXXXXXX" /></label>
+          <label>Password <input id="password" type="password" autocomplete="off" /></label>
+        </div>
+        <button id="btnClaim">Calcular PASSWORD_CLAIM_SIGNATURE</button>
+        <p id="claimError" class="error"></p>
+        <label>PASSWORD_CLAIM_SIGNATURE <input id="signature" readonly /></label>
+        <button class="copy" data-target="signature">Copiar firma</button>
+        <label>TIMESTAMP <input id="timestamp" readonly /></label>
+        <label>Body RespondToAuthChallenge <textarea id="claimBody" rows="10" readonly></textarea></label>
+        <button class="copy" data-target="claimBody">Copiar body</button>
+        <label>curl <textarea id="claimCurl" rows="8" readonly></textarea></label>
+        <button class="copy" data-target="claimCurl">Copiar curl</button>
+      </section>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

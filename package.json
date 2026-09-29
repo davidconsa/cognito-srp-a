@@ -1,0 +1,20 @@
+{
+  "name": "cognito-srp-a",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p web/tsconfig.json",
+    "generate": "npm run build --silent && node dist/cli/generate.js",
+    "claim": "npm run build --silent && node dist/cli/claim.js",
+    "selftest": "npm run build --silent && node dist/cli/selftest.js",
+    "web:dev": "vite web",
+    "web:build": "vite build web && touch docs/.nojekyll"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "typescript": "5.6.3",
+    "vite": "^5.4.21"
+  }
+}
